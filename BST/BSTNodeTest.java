@@ -56,6 +56,16 @@ class BSTNodeTest {
     }
 
     @Test
+    void AddKeyValue_empty(){
+        BST<Integer> tree = new BST<>(null);
+        assertEquals(0, tree.Count());
+
+        tree.AddKeyValue(8, 8);
+        assertEquals(1, tree.Count());
+        assertEquals(8, tree.Root.NodeKey);
+    }
+
+    @Test
     void FinMinMax_test(){
         BSTNode<Integer> node8 = new BSTNode<>(8, 8, null);
         BSTNode<Integer> node4 = new BSTNode<>(4, 4, node8);

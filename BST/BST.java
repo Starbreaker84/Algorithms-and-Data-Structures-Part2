@@ -1,6 +1,3 @@
-import java.io.*;
-import java.util.*;
-
 class BSTNode<T>
 {
     public int NodeKey; // ключ узла
@@ -85,7 +82,9 @@ class BST<T>
         }
 
         BSTNode<T> newNode = new BSTNode<>(key, val, foundNode.Node);
-        if (foundNode.ToLeft) {
+        if (foundNode.Node == null) {
+            Root = newNode;
+        } else if (foundNode.ToLeft) {
             foundNode.Node.LeftChild = newNode;
         } else {
             foundNode.Node.RightChild = newNode;
