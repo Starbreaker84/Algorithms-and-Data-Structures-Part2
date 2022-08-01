@@ -161,4 +161,18 @@ class BSTNodeTest {
         assertNull(tree.Root.LeftChild.RightChild.LeftChild);
         assertEquals(7, tree.Count());
     }
+
+    @Test
+    void DeleteNodeByKey_test_last(){
+        BSTNode<Integer> node8 = new BSTNode<>(8, 8, null);
+
+        BST<Integer> tree = new BST<>(node8);
+
+        assertTrue(tree.FindNodeByKey(8).NodeHasKey);
+        assertEquals(1, tree.Count());
+        assertTrue(tree.DeleteNodeByKey(8));
+        assertFalse(tree.FindNodeByKey(8).NodeHasKey);
+        assertNull(tree.Root);
+        assertEquals(0, tree.Count());
+    }
 }

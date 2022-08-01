@@ -135,7 +135,9 @@ class BST<T>
         }
         //case 3: нет потомков
         if (foundNode.Node.LeftChild == null && foundNode.Node.RightChild == null){
-            if (key < foundNode.Node.Parent.NodeKey) {
+            if (foundNode.Node == Root) {
+                Root = null;
+            } else if (key < foundNode.Node.Parent.NodeKey) {
                 foundNode.Node.Parent.LeftChild = null;
             } else {
                 foundNode.Node.Parent.RightChild = null;
