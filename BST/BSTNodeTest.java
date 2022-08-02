@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BSTNodeTest {
@@ -184,5 +186,173 @@ class BSTNodeTest {
         assertFalse(tree.FindNodeByKey(8).NodeHasKey);
         assertNull(tree.Root);
         assertEquals(0, tree.Count());
+    }
+
+    @Test
+    void WideAllNodes_test(){
+        BSTNode<Integer> node8 = new BSTNode<>(8, 8, null);
+        BSTNode<Integer> node4 = new BSTNode<>(4, 4, node8);
+        BSTNode<Integer> node12 = new BSTNode<>(12, 12, node8);
+        node8.LeftChild = node4;
+        node8.RightChild = node12;
+        BSTNode<Integer> node2 = new BSTNode<>(2, 2, node4);
+        BSTNode<Integer> node6 = new BSTNode<>(6, 6, node4);
+        node4.LeftChild = node2;
+        node4.RightChild = node6;
+        BSTNode<Integer> node10 = new BSTNode<>(10, 10, node12);
+        BSTNode<Integer> node14 = new BSTNode<>(14, 14, node12);
+        node12.LeftChild = node10;
+        node12.RightChild = node14;
+
+        BST<Integer> tree = new BST<>(node8);
+
+        ArrayList<BSTNode> compareList = new ArrayList<>();
+        compareList.add(node8);
+        compareList.add(node4);
+        compareList.add(node12);
+        compareList.add(node2);
+        compareList.add(node6);
+        compareList.add(node10);
+        compareList.add(node14);
+
+        assertEquals(compareList, tree.WideAllNodes());
+    }
+
+    @Test
+    void WideAllNodes_test_notFull(){
+        BSTNode<Integer> node8 = new BSTNode<>(8, 8, null);
+        BSTNode<Integer> node4 = new BSTNode<>(4, 4, node8);
+        BSTNode<Integer> node12 = new BSTNode<>(12, 12, node8);
+        node8.LeftChild = node4;
+        node8.RightChild = node12;
+        BSTNode<Integer> node2 = new BSTNode<>(2, 2, node4);
+        BSTNode<Integer> node6 = new BSTNode<>(6, 6, node4);
+        node4.LeftChild = node2;
+        node4.RightChild = node6;
+        BSTNode<Integer> node14 = new BSTNode<>(14, 14, node12);
+        node12.RightChild = node14;
+
+        BST<Integer> tree = new BST<>(node8);
+
+        ArrayList<BSTNode> compareList = new ArrayList<>();
+        compareList.add(node8);
+        compareList.add(node4);
+        compareList.add(node12);
+        compareList.add(node2);
+        compareList.add(node6);
+        compareList.add(node14);
+
+        assertEquals(compareList, tree.WideAllNodes());
+    }
+
+    @Test
+    void WideAllNodes_test_empty(){
+        BST<Integer> tree = new BST<>(null);
+        ArrayList<BSTNode> compareList = new ArrayList<>();
+
+        assertEquals(compareList, tree.WideAllNodes());
+    }
+
+    @Test
+    void WideAllNodes_test_onlyOne(){
+        BSTNode<Integer> node8 = new BSTNode<>(8, 8, null);
+
+        BST<Integer> tree = new BST<>(node8);
+
+        ArrayList<BSTNode> compareList = new ArrayList<>();
+        compareList.add(node8);
+
+        assertEquals(compareList, tree.WideAllNodes());
+    }
+
+
+    @Test
+    void in_orderNodes_test_in_order(){
+        BSTNode<Integer> node8 = new BSTNode<>(8, 8, null);
+        BSTNode<Integer> node4 = new BSTNode<>(4, 4, node8);
+        BSTNode<Integer> node12 = new BSTNode<>(12, 12, node8);
+        node8.LeftChild = node4;
+        node8.RightChild = node12;
+        BSTNode<Integer> node2 = new BSTNode<>(2, 2, node4);
+        BSTNode<Integer> node6 = new BSTNode<>(6, 6, node4);
+        node4.LeftChild = node2;
+        node4.RightChild = node6;
+        BSTNode<Integer> node10 = new BSTNode<>(10, 10, node12);
+        BSTNode<Integer> node14 = new BSTNode<>(14, 14, node12);
+        node12.LeftChild = node10;
+        node12.RightChild = node14;
+
+        BST<Integer> tree = new BST<>(node8);
+
+        ArrayList<BSTNode> compareList = new ArrayList<>();
+        compareList.add(node2);
+        compareList.add(node4);
+        compareList.add(node6);
+        compareList.add(node8);
+        compareList.add(node10);
+        compareList.add(node12);
+        compareList.add(node14);
+
+        assertEquals(compareList, tree.DeepAllNodes(0));
+    }
+
+    @Test
+    void in_orderNodes_test_post_order(){
+        BSTNode<Integer> node8 = new BSTNode<>(8, 8, null);
+        BSTNode<Integer> node4 = new BSTNode<>(4, 4, node8);
+        BSTNode<Integer> node12 = new BSTNode<>(12, 12, node8);
+        node8.LeftChild = node4;
+        node8.RightChild = node12;
+        BSTNode<Integer> node2 = new BSTNode<>(2, 2, node4);
+        BSTNode<Integer> node6 = new BSTNode<>(6, 6, node4);
+        node4.LeftChild = node2;
+        node4.RightChild = node6;
+        BSTNode<Integer> node10 = new BSTNode<>(10, 10, node12);
+        BSTNode<Integer> node14 = new BSTNode<>(14, 14, node12);
+        node12.LeftChild = node10;
+        node12.RightChild = node14;
+
+        BST<Integer> tree = new BST<>(node8);
+
+        ArrayList<BSTNode> compareList = new ArrayList<>();
+        compareList.add(node2);
+        compareList.add(node6);
+        compareList.add(node4);
+        compareList.add(node10);
+        compareList.add(node14);
+        compareList.add(node12);
+        compareList.add(node8);
+
+        assertEquals(compareList, tree.DeepAllNodes(1));
+    }
+
+    @Test
+    void in_orderNodes_test_pre_order(){
+        BSTNode<Integer> node8 = new BSTNode<>(8, 8, null);
+        BSTNode<Integer> node4 = new BSTNode<>(4, 4, node8);
+        BSTNode<Integer> node12 = new BSTNode<>(12, 12, node8);
+        node8.LeftChild = node4;
+        node8.RightChild = node12;
+        BSTNode<Integer> node2 = new BSTNode<>(2, 2, node4);
+        BSTNode<Integer> node6 = new BSTNode<>(6, 6, node4);
+        node4.LeftChild = node2;
+        node4.RightChild = node6;
+        BSTNode<Integer> node10 = new BSTNode<>(10, 10, node12);
+        BSTNode<Integer> node14 = new BSTNode<>(14, 14, node12);
+        node12.LeftChild = node10;
+        node12.RightChild = node14;
+
+        BST<Integer> tree = new BST<>(node8);
+
+        ArrayList<BSTNode> compareList = new ArrayList<>();
+        compareList.add(node8);
+        compareList.add(node4);
+        compareList.add(node2);
+        compareList.add(node6);
+        compareList.add(node12);
+        compareList.add(node10);
+        compareList.add(node14);
+
+        assertEquals(compareList, tree.DeepAllNodes(2));
     }
 }

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 class BSTNode<T>
 {
     public int NodeKey; // ключ узла
@@ -144,11 +146,11 @@ class BST<T>
             DeleteNodeByKey(temp);
             foundNode.Node.NodeKey = temp;
         }
-        //case 2: есть левый потомок (линкуем родителя узла с ребёнком узла напрямую)
+        //case 2: есть левый потомок
         if (foundNode.Node.LeftChild != null && foundNode.Node.RightChild == null){
             setParentChild(foundNode, key);
         }
-        //case 3: нет потомков (удаляем узел)
+        //case 3: нет потомков
         if (foundNode.Node.LeftChild == null && foundNode.Node.RightChild == null){
             nodeToNull(foundNode, key);
         }
@@ -165,5 +167,53 @@ class BST<T>
     public int Count()
     {
         return getSize(Root); // количество узлов в дереве
+    }
+
+    public ArrayList<BSTNode> WideAllNodes(){
+        ArrayList<BSTNode> wideListOfNodes = new ArrayList<>();
+        if (Root != null) {
+            wideListOfNodes.add(Root);
+        }
+        for (int i = 0; i < wideListOfNodes.size(); i++){
+            if (wideListOfNodes.get(i).LeftChild != null) {
+                wideListOfNodes.add(wideListOfNodes.get(i).LeftChild);
+            }
+            if (wideListOfNodes.get(i).RightChild != null) {
+                wideListOfNodes.add(wideListOfNodes.get(i).RightChild);
+            }
+        }
+        return wideListOfNodes;
+    }
+
+    private ArrayList<BSTNode> in_orderNodes(BSTNode root){
+        ArrayList<BSTNode> nodes = new ArrayList<>();
+        if (root == null) return nodes;
+        nodes.addAll(in_orderNodes(root.LeftChild));
+        nodes.add(root);
+        nodes.addAll(in_orderNodes(root.RightChild));
+        return nodes;
+    }
+    private ArrayList<BSTNode> post_orderNodes(BSTNode root){
+        ArrayList<BSTNode> nodes = new ArrayList<>();
+        if (root == null) return nodes;
+        nodes.addAll(post_orderNodes(root.LeftChild));
+        nodes.addAll(post_orderNodes(root.RightChild));
+        nodes.add(root);
+        return nodes;
+    }
+    private ArrayList<BSTNode> pre_orderNodes(BSTNode root){
+        ArrayList<BSTNode> nodes = new ArrayList<>();
+        if (root == null) return nodes;
+        nodes.add(root);
+        nodes.addAll(pre_orderNodes(root.LeftChild));
+        nodes.addAll(pre_orderNodes(root.RightChild));
+        return nodes;
+    }
+
+
+    public ArrayList<BSTNode> DeepAllNodes(int order){
+        if (order == 0) return in_orderNodes(Root);
+        if (order == 1) return post_orderNodes(Root);
+        return pre_orderNodes(Root);
     }
 }
