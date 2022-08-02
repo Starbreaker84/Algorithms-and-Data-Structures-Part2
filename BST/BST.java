@@ -110,6 +110,26 @@ class BST<T>
         return findMin(FromNode);
     }
 
+    private void setParentChild(BSTFind<T> foundNode, int key){
+        if (key < foundNode.Node.Parent.NodeKey) {
+            foundNode.Node.Parent.LeftChild = foundNode.Node.LeftChild;
+            foundNode.Node.LeftChild.Parent = foundNode.Node.Parent;
+        } else {
+            foundNode.Node.Parent.RightChild = foundNode.Node.LeftChild;
+            foundNode.Node.LeftChild.Parent = foundNode.Node.Parent;
+        }
+    }
+
+    private void nodeToNull(BSTFind<T> foundNode, int key){
+        if (foundNode.Node == Root) {
+            Root = null;
+        } else if (key < foundNode.Node.Parent.NodeKey) {
+            foundNode.Node.Parent.LeftChild = null;
+        } else {
+            foundNode.Node.Parent.RightChild = null;
+        }
+    }
+
     public boolean DeleteNodeByKey(int key)
     {
         // удаляем узел по ключу
@@ -124,23 +144,13 @@ class BST<T>
             DeleteNodeByKey(temp);
             foundNode.Node.NodeKey = temp;
         }
-        //case 2: есть левый потомок
+        //case 2: есть левый потомок (линкуем родителя узла с ребёнком узла напрямую)
         if (foundNode.Node.LeftChild != null && foundNode.Node.RightChild == null){
-            if (key < foundNode.Node.Parent.NodeKey) {
-                foundNode.Node.Parent.LeftChild = foundNode.Node.LeftChild;
-            } else {
-                foundNode.Node.Parent.RightChild = foundNode.Node.LeftChild;
-            }
+            setParentChild(foundNode, key);
         }
-        //case 3: нет потомков
+        //case 3: нет потомков (удаляем узел)
         if (foundNode.Node.LeftChild == null && foundNode.Node.RightChild == null){
-            if (foundNode.Node == Root) {
-                Root = null;
-            } else if (key < foundNode.Node.Parent.NodeKey) {
-                foundNode.Node.Parent.LeftChild = null;
-            } else {
-                foundNode.Node.Parent.RightChild = null;
-            }
+            nodeToNull(foundNode, key);
         }
         return true;
     }
