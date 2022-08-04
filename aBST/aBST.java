@@ -31,7 +31,8 @@ class aBST
         if (keyIndex == null) return -1;
         if (keyIndex >= 0 && Tree[0] != null) {
             return keyIndex;
-        } else {
+        }
+        if (keyIndex == 0){
             Tree[Math.abs(keyIndex)] = key;
         }
         return Math.abs(keyIndex);

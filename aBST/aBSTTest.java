@@ -34,6 +34,9 @@ class aBSTTest {
         assertEquals(4, listTree.AddKey(7));
         assertEquals(5, listTree.AddKey(9));
         assertEquals(0, listTree.AddKey(8));
+        listTree.Tree[0] = null;
+        assertEquals(0, listTree.AddKey(8));
+        assertEquals(8, listTree.Tree[0]);
         assertEquals(-1, listTree.AddKey(16));
     }
 }
