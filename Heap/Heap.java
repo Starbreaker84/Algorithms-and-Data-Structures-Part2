@@ -18,7 +18,7 @@ class Heap
         }
     }
 
-    private int getFirstNotEmptyIndex(){
+    private int getLastNotEmptyIndex(){
         for (int i = HeapArray.length - 1; i >= 0; i--){
             if (HeapArray[i] != -1){
                 return i;
@@ -28,23 +28,21 @@ class Heap
     }
 
     private void removeMax(int index){
-        if (2 * index + 1 < HeapArray.length && HeapArray[index] < HeapArray[2 * index + 1] ){
-            int temp = HeapArray[index];
-            HeapArray[index] = HeapArray[2 * index + 1];
-            HeapArray[2 * index + 1] = temp;
-            removeMax(2 * index + 1);
+        int shift = 1;
+        if (2 * index + 2 < HeapArray.length && HeapArray[2 * index + 1] < HeapArray[2 * index + 2] ) {
+            shift = 2;
         }
-        if (2 * index + 2 < HeapArray.length && HeapArray[index] < HeapArray[2 * index + 2]) {
+        if (2 * index + shift < HeapArray.length && HeapArray[index] < HeapArray[2 * index + shift] ){
             int temp = HeapArray[index];
-            HeapArray[index] = HeapArray[2 * index + 2];
-            HeapArray[2 * index + 2] = temp;
-            removeMax(2 * index + 2);
+            HeapArray[index] = HeapArray[2 * index + shift];
+            HeapArray[2 * index + shift] = temp;
+            removeMax(2 * index + shift);
         }
     }
 
     public int GetMax() {
         if (HeapArray == null) return -1;
-        int index = getFirstNotEmptyIndex();
+        int index = getLastNotEmptyIndex();
         if (index != -1) {
             int max = HeapArray[0];
             HeapArray[0] = HeapArray[index];
