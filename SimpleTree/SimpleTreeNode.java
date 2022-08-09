@@ -3,9 +3,9 @@ import java.util.*;
 public class SimpleTreeNode<T>
 {
     public int NodeLevel;
-    public T NodeValue;
-    public SimpleTreeNode<T> Parent;
-    public List<SimpleTreeNode<T>> Children;
+    public T NodeValue; // значение в узле
+    public SimpleTreeNode<T> Parent; // родитель или null для корня
+    public List<SimpleTreeNode<T>> Children; // список дочерних узлов или null
 
     public SimpleTreeNode(T val, SimpleTreeNode<T> parent)
     {
@@ -108,5 +108,24 @@ class SimpleTree<T>
     public int LeafCount(){
         if (Root == null) return 0;
         return getLeafs(Root);
+    }
+
+    public ArrayList<T> EvenTrees() {
+        ArrayList<T> deletedEdges = new ArrayList<>();
+        LinkedList<SimpleTreeNode<T>> list = new LinkedList<>();
+        SimpleTreeNode<T> node = Root;
+        list.add(node);
+        while (!list.isEmpty()) {
+            node = list.pollFirst();
+            SimpleTree<T> tree = new SimpleTree<>(node);
+            if ((tree.Count() & 1) == 0) {
+                list.addAll(node.Children);
+            }
+            if ((tree.Count() & 1) == 0 && node.Parent != null) {
+                deletedEdges.add(node.Parent.NodeValue);
+                deletedEdges.add(node.NodeValue);
+            }
+        }
+        return deletedEdges;
     }
 }
