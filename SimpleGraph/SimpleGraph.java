@@ -80,14 +80,14 @@ class SimpleGraph {
             path.push(vertex[vTo]);
             return path;
         }
-        int currentIndex = getEdgeIndex(vFrom);
-        if (currentIndex != -1) return dfs(currentIndex, vTo, path);
+        int newFrom = getNewFromIndex(vFrom);
+        if (newFrom != -1) return dfs(newFrom, vTo, path);
         path.pop();
         if (path.empty()) return path;
         return dfs(getVertexIndex(path.pop()), vTo, path);
     }
 
-    private int getEdgeIndex(int vFrom) {
+    private int getNewFromIndex(int vFrom) {
         for (int i = 0; i < vertex.length; i++){
             if (vertex[i] != null && IsEdge(vFrom, i) && vertex[i].Hit == false) {
                 return i;
