@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -136,6 +135,82 @@ class SimpleGraphTest {
 
         assertTrue(graph.DepthFirstSearch(0, 5).isEmpty());
     }
+
+    @Test
+    void breadthFirstSearch_test_long(){
+        SimpleGraph graph = new SimpleGraph(5);
+        graph.AddVertex(0);
+        graph.AddVertex(1);
+        graph.AddVertex(2);
+        graph.AddVertex(3);
+        graph.AddVertex(4);
+        graph.AddEdge(0, 1);
+        graph.AddEdge(0, 2);
+        graph.AddEdge(2, 3);
+        graph.AddEdge(1, 3);
+        graph.AddEdge(1, 4);
+        graph.AddEdge(3, 4);
+
+        List<Integer> comparedList = new ArrayList<>();
+        comparedList.add(2);
+        comparedList.add(3);
+        comparedList.add(4);
+
+        List<Integer> result = new ArrayList<>();
+        for (Vertex v : graph.BreadthFirstSearch(2, 4)){
+            result.add(v.Value);
+        }
+
+        assertEquals(comparedList, result);
+    }
+
+    @Test
+    void breadthFirstSearch_test_short(){
+        SimpleGraph graph = new SimpleGraph(5);
+        graph.AddVertex(0);
+        graph.AddVertex(1);
+        graph.AddVertex(2);
+        graph.AddVertex(3);
+        graph.AddVertex(4);
+        graph.AddEdge(0, 1);
+        graph.AddEdge(0, 2);
+        graph.AddEdge(2, 3);
+        graph.AddEdge(1, 3);
+        graph.AddEdge(1, 4);
+        graph.AddEdge(3, 4);
+
+        List<Integer> comparedList = new ArrayList<>();
+        comparedList.add(1);
+        comparedList.add(4);
+
+        List<Integer> result = new ArrayList<>();
+        for (Vertex v : graph.BreadthFirstSearch(1, 4)){
+            result.add(v.Value);
+        }
+
+        assertEquals(comparedList, result);
+    }
+
+    @Test
+    void breadthFirstSearch_test_empty(){
+        SimpleGraph graph = new SimpleGraph(6);
+        graph.AddVertex(0);
+        graph.AddVertex(1);
+        graph.AddVertex(2);
+        graph.AddVertex(3);
+        graph.AddVertex(4);
+        graph.AddVertex(5);
+        graph.AddEdge(0, 1);
+        graph.AddEdge(0, 2);
+        graph.AddEdge(2, 3);
+        graph.AddEdge(1, 3);
+        graph.AddEdge(1, 4);
+        graph.AddEdge(3, 4);
+
+        assertTrue(graph.DepthFirstSearch(0, 5).isEmpty());
+    }
+
+
 
 
 

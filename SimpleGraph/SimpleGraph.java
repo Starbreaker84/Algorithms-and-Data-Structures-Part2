@@ -103,4 +103,52 @@ class SimpleGraph {
         return -1;
     }
 
+    public ArrayList<Vertex> BreadthFirstSearch(int VFrom, int VTo) {
+        // Узлы задаются позициями в списке vertex.
+        // Возвращается список узлов -- путь из VFrom в VTo.
+        // Список пустой, если пути нету.
+        Queue<Vertex> vertexList = new LinkedList<>();
+        int[] parents = new int[vertex.length];
+        ArrayList<Vertex> path = new ArrayList<>();
+        for (Vertex vert : vertex){
+            if (vert != null) vert.Hit = false;
+        }
+        vertex[VFrom].Hit = true;
+        parents[VFrom] = VFrom;
+        path = bfs(VFrom, VFrom, VTo, vertexList, parents, path);
+        return path;
+    }
+
+    private ArrayList<Vertex> bfs(int start, int vFrom, int vTo, Queue<Vertex> vertexList, int[] parents, ArrayList<Vertex> path){
+        int nearVertexIndex = getNewFromIndex(vFrom); // ближайшая непосещённая вершина
+        if (nearVertexIndex == vTo) {
+            parents[vTo] = vFrom;
+            return getPath(start, vTo, parents, path);
+        }
+        if (nearVertexIndex >= 0) { // если такая вершина есть, но не равно искомой
+            vertex[nearVertexIndex].Hit = true;
+            parents[nearVertexIndex] = vFrom;
+            vertexList.add(vertex[nearVertexIndex]);
+            return bfs(start, vFrom, vTo, vertexList, parents, path);
+        }
+        if (vertexList.isEmpty()) {
+            return new ArrayList<>(); // путь не найден
+        }
+        Vertex newFromVertex = vertexList.remove(); //если нет непосещённых вершин
+        int newFromIndex = getVertexIndex(newFromVertex);
+        return bfs(start, newFromIndex, vTo, vertexList, parents, path);
+    }
+
+    private ArrayList<Vertex> getPath(int start, int vTo, int[] parents, ArrayList<Vertex> path){
+        Vertex v = vertex[vTo];
+        while (v != vertex[start]){
+            path.add(v);
+            v = vertex[parents[vTo]];
+            vTo = parents[vTo];
+        }
+        path.add(vertex[start]);
+        Collections.reverse(path);
+        return path;
+    }
+
 }
