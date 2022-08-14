@@ -151,4 +151,56 @@ class SimpleGraph {
         return path;
     }
 
+    public ArrayList<Vertex> WeakVertices() {
+        // возвращает список узлов вне треугольников
+
+        //очищаем признак посещения вершины, тк как
+        //в этом методе он будет использоваться в качестве метки о том,
+        //что вершина входит в треугольник
+        for (Vertex v : vertex){
+            if (v != null) v.Hit = false;
+        }
+        //список вершин вне треугольников
+        ArrayList<Vertex> weakVertices = new ArrayList<>();
+        //последовательно проходим по каждой вершине
+        for (int i = 0; i < max_vertex; i++){
+            //игнорируем вершины, уже входящие в треугольники
+            if (vertex[i] == null || vertex[i].Hit) continue;
+            //добавляем в список вершину-исключение
+            if (!isInTriangle(i)) {
+                weakVertices.add(vertex[i]);
+            }
+        }
+        return weakVertices;
+    }
+
+    private boolean isInTriangle(int index){
+        //получаем список соседей
+        ArrayList<Integer> neighbours = getNeighbours(index);
+        //проверяем, есть ли ребро между ними
+        for (int i = 0; i < neighbours.size(); i++) {
+            for (int j = 0; j < neighbours.size(); j++){
+                if (IsEdge(neighbours.get(i), neighbours.get(j))) {
+                    //помечаем вершины, как входящие в треугольник
+                    vertex[index].Hit = true;
+                    vertex[neighbours.get(i)].Hit = true;
+                    vertex[neighbours.get(j)].Hit = true;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private ArrayList<Integer> getNeighbours(int index){
+        ArrayList<Integer> neighbours = new ArrayList<>();
+        for (int i = 0; i < max_vertex; i++) {
+            if (m_adjacency[index][i] == 1) {
+                neighbours.add(i);
+            }
+        }
+        return neighbours;
+    }
+
+
 }
